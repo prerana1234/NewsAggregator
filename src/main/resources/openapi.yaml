@@ -1,0 +1,29 @@
+
+openapi: 3.0.1
+info:
+  title: News Aggregator API
+  version: 0.1.0
+paths:
+  /api/news:
+    get:
+      summary: Search news by keyword
+      parameters:
+        - name: keyword
+          in: query
+          required: true
+          schema: { type: string }
+        - name: city
+          in: query
+          schema: { type: string }
+        - name: pageNo
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: pageSize
+          in: query
+          schema: { type: integer, default: 10 }
+        - name: offline
+          in: query
+          schema: { type: boolean, default: false }
+      responses:
+        '200':
+          description: OK

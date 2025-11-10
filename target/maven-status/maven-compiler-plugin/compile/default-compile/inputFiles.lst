@@ -1,0 +1,9 @@
+/Users/k0j0bgp/Downloads/news-aggregator/src/main/java/com/example/newsaggregator/service/NewsServiceImpl.java
+/Users/k0j0bgp/Downloads/news-aggregator/src/main/java/com/example/newsaggregator/service/NewsService.java
+/Users/k0j0bgp/Downloads/news-aggregator/src/main/java/com/example/newsaggregator/client/NytClient.java
+/Users/k0j0bgp/Downloads/news-aggregator/src/main/java/com/example/newsaggregator/model/AggregatedResponse.java
+/Users/k0j0bgp/Downloads/news-aggregator/src/main/java/com/example/newsaggregator/model/NewsArticle.java
+/Users/k0j0bgp/Downloads/news-aggregator/src/main/java/com/example/newsaggregator/NewsAggregatorApplication.java
+/Users/k0j0bgp/Downloads/news-aggregator/src/main/java/com/example/newsaggregator/controller/NewsController.java
+/Users/k0j0bgp/Downloads/news-aggregator/src/main/java/com/example/newsaggregator/util/OfflineCache.java
+/Users/k0j0bgp/Downloads/news-aggregator/src/main/java/com/example/newsaggregator/client/GuardianClient.java

@@ -1,0 +1,234 @@
+=============================
+NEWS AGGREGATOR - TEST CASES
+=============================
+
+-----------------------------------
+1. FUNCTIONAL TEST CASES
+-----------------------------------
+
+TC01 - Verify keyword-based search
+Steps:
+1. Enter a keyword (e.g., "apple")
+2. Click Search
+Expected:
+- Aggregated news articles from Guardian and NYTimes are displayed
+- Duplicates are removed
+
+TC02 - Verify pagination with default values
+Steps:
+1. Leave Page No and Page Size empty
+2. Perform search
+Expected:
+- Default pagination values are applied (Page No = 1, Page Size = 10)
+
+TC03 - Verify pagination navigation
+Steps:
+1. Perform search
+2. Click “Next Page” or “Previous Page” buttons
+Expected:
+- Correct page of articles is displayed
+- Meta info updates accordingly
+
+TC04 - Verify result refresh on parameter change
+Steps:
+1. Perform search for "apple"
+2. Change keyword to "tesla" and search again
+Expected:
+- Results update with new keyword
+- Meta info changes to reflect new search
+
+TC05 - Verify city parameter (optional)
+Steps:
+1. Enter city “New York” with keyword “apple”
+2. Perform search
+Expected:
+- Results are displayed (no error even if city filter is unused)
+
+TC06 - Verify offline mode toggle
+Steps:
+1. Check “Offline” toggle
+2. Perform search
+Expected:
+- Data is retrieved from local/offline cache
+- No API calls to external services
+
+TC07 - Verify API unavailability handling
+Steps:
+1. Disable or mock Guardian/NYT APIs
+2. Perform search
+Expected:
+- Service still returns relevant cached or fallback results
+- No crash or HTTP 500 errors
+
+TC08 - Verify duplicate elimination
+Steps:
+1. Search for “apple”
+2. Observe result list
+Expected:
+- Duplicate URLs or titles are not repeated
+
+TC09 - Verify meta information section
+Steps:
+1. Perform a valid search
+Expected:
+- Displays keyword, total pages, page retrieved, prev/next page, time taken
+
+TC10 - Verify time taken field
+Steps:
+1. Perform multiple searches
+Expected:
+- “Time Taken (ms)” shows realistic values (< 5000ms)
+
+-----------------------------------
+2. API TEST CASES (/api/news)
+-----------------------------------
+
+API01 - Valid keyword
+Request: /api/news?keyword=apple&pageNo=1&pageSize=10
+Expected: HTTP 200 OK, JSON array of articles
+
+API02 - Empty keyword
+Request: /api/news?keyword=&pageNo=1&pageSize=10
+Expected: Empty results or validation message
+
+API03 - Invalid page number
+Request: /api/news?keyword=apple&pageNo=-1
+Expected: Defaults to page 1 or error message
+
+API04 - Missing parameters
+Request: /api/news
+Expected: Defaults applied for pagination, keyword handled gracefully
+
+API05 - Verify structure of response
+Expected JSON Fields:
+keyword, city, totalPages, pageNo, prevPage, nextPage, timeTakenMillis, articles[]
+
+API06 - Verify Guardian + NYT data merge
+Expected:
+- Combined response with unique articles from both APIs
+
+API07 - Verify response under API failure
+Steps:
+- Simulate Guardian API down
+Expected:
+- NYT results still appear
+- No 500 error
+
+API08 - Performance test
+Steps:
+- Trigger multiple requests
+Expected:
+- Response within 3-5 seconds
+
+-----------------------------------
+3. UI / UX TEST CASES
+-----------------------------------
+
+UI01 - Page layout and styling
+Expected:
+- Header, search section, articles, and pagination visually aligned
+
+UI02 - Responsive design
+Expected:
+- Layout adapts to mobile and desktop screens properly
+
+UI03 - Search box focus and hover effects
+Expected:
+- Input highlights on focus, buttons animate on hover
+
+UI04 - Readability
+Expected:
+- Font size, contrast, and spacing consistent
+
+UI05 - URL and article card layout
+Expected:
+- Articles displayed in visually separated cards with shadow and color accents
+
+-----------------------------------
+4. SECURITY & VALIDATION TEST CASES
+-----------------------------------
+
+SEC01 - API key protection
+Expected:
+- Keys not exposed in client code
+- Stored securely in backend or environment variables
+
+SEC02 - Input validation
+Steps:
+- Enter script tags or special characters in input
+Expected:
+- Sanitized input; no script execution (XSS protection)
+
+SEC03 - Network resilience
+Steps:
+- Disconnect internet during search
+Expected:
+- App handles gracefully; shows “Error fetching data” message
+
+SEC04 - API rate limit
+Steps:
+- Hit API multiple times rapidly
+Expected:
+- No server crash; proper rate limiting or delay handling
+
+-----------------------------------
+5. NON-FUNCTIONAL TEST CASES
+-----------------------------------
+
+NFR01 - Performance
+Expected:
+- Page load time < 3 seconds
+- API call time < 5 seconds
+
+NFR02 - Scalability
+Expected:
+- Application handles multiple simultaneous requests without timeout
+
+NFR03 - Fault Tolerance
+Expected:
+- Works even when one API fails (Guardian or NYT)
+
+NFR04 - Maintainability
+Expected:
+- Code follows SOLID principles
+- Proper layer separation (Controller, Service, Model)
+
+NFR05 - Documentation
+Expected:
+- Swagger/OpenAPI documentation accessible
+- README.md explains architecture and deployment
+
+NFR06 - CI/CD Pipeline
+Expected:
+- Jenkins pipeline builds, tests, and deploys Docker image successfully
+
+-----------------------------------
+6. SAMPLE API RESPONSE
+-----------------------------------
+
+{
+  "keyword": "apple",
+  "city": "N/A",
+  "pageNo": 1,
+  "totalPages": 2,
+  "prevPage": null,
+  "nextPage": 2,
+  "timeTakenMillis": 2100,
+  "articles": [
+    {
+      "title": "Apple releases new MacBook Pro",
+      "description": "Apple launches new hardware lineup",
+      "source": "The Guardian",
+      "url": "https://www.theguardian.com/apple-news"
+    },
+    {
+      "title": "Apple stock hits record high",
+      "source": "New York Times",
+      "url": "https://www.nytimes.com/apple-stock"
+    }
+  ]
+}
+
+-----------------------------------
+END OF FILE
+-----------------------------------

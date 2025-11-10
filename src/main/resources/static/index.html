@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>📰 News Aggregator</title>
+    <style>
+        /* ======== GLOBAL STYLES ======== */
+        body {
+          font-family: "Poppins", sans-serif;
+          background: linear-gradient(180deg, #f5f7fa, #e9efff);
+          margin: 0;
+          padding: 30px;
+          color: #333;
+        }
+
+        h1 {
+          text-align: center;
+          color: white;
+          background: linear-gradient(90deg, #6a11cb, #2575fc);
+          padding: 15px 0;
+          border-radius: 10px;
+          font-size: 2rem;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* ======== SEARCH SECTION ======== */
+        .search-box {
+          background: #ffffff;
+          padding: 20px;
+          border-radius: 12px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+          margin: 30px auto;
+          width: 90%;
+          max-width: 900px;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          border-top: 5px solid #2575fc;
+        }
+
+        .search-box label {
+          font-weight: 500;
+          color: #333;
+        }
+
+        .search-box input {
+          padding: 10px;
+          border-radius: 8px;
+          border: 1px solid #ccc;
+          outline: none;
+          transition: all 0.2s ease;
+          width: 120px;
+        }
+
+        .search-box input:focus {
+          border-color: #2575fc;
+          box-shadow: 0 0 5px rgba(37,117,252,0.5);
+        }
+
+        .search-box button {
+          background: linear-gradient(90deg, #2575fc, #6a11cb);
+          color: white;
+          border: none;
+          padding: 10px 18px;
+          border-radius: 8px;
+          cursor: pointer;
+          font-weight: 600;
+          transition: all 0.3s ease;
+        }
+
+        .search-box button:hover {
+          transform: scale(1.05);
+          background: linear-gradient(90deg, #6a11cb, #2575fc);
+        }
+
+        /* ======== META INFO ======== */
+        #meta {
+          background: #f1fdf4;
+          border-left: 5px solid #4caf50;
+          border-radius: 10px;
+          padding: 15px;
+          margin: 20px auto;
+          width: 90%;
+          max-width: 900px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+          font-size: 0.95rem;
+          color: #2e7d32;
+          line-height: 1.6;
+        }
+
+        /* ======== ARTICLE SECTION ======== */
+        #articles {
+          margin-top: 30px;
+        }
+
+        .article {
+          background: #fffef6;
+          margin: 15px auto;
+          padding: 18px 22px;
+          width: 90%;
+          max-width: 900px;
+          border-radius: 12px;
+          border-top: 5px solid #f3b13d;
+          box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+          transition: all 0.3s ease;
+        }
+
+        .article:nth-child(even) {
+          background: #f6fbff;
+          border-top: 5px solid #3d91f3;
+        }
+
+        .article:hover {
+          transform: scale(1.02);
+          box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+        }
+
+        .article h3 {
+          margin-top: 0;
+          color: #1a73e8;
+          font-size: 1.1rem;
+        }
+
+        .article p {
+          color: #444;
+          margin: 5px 0;
+          font-size: 0.95rem;
+        }
+
+        .article a {
+          color: #0056d2;
+          text-decoration: none;
+          word-break: break-word;
+        }
+
+        .article a:hover {
+          text-decoration: underline;
+        }
+
+        /* ======== URL LIST ======== */
+        .url-list {
+          background: #ffffff;
+          margin: 30px auto;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+          width: 90%;
+          max-width: 900px;
+        }
+
+        .url-list h3 {
+          color: #444;
+          margin-top: 0;
+          border-bottom: 2px solid #2575fc;
+          padding-bottom: 5px;
+        }
+
+        .url-list li {
+          margin: 6px 0;
+          font-size: 0.95rem;
+        }
+
+        .url-list a {
+          color: #2575fc;
+          text-decoration: none;
+        }
+
+        .url-list a:hover {
+          text-decoration: underline;
+        }
+
+        /* ======== PAGINATION ======== */
+        #pagination {
+          text-align: center;
+          margin-top: 25px;
+        }
+
+        #pagination button {
+          background: linear-gradient(90deg, #2575fc, #6a11cb);
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 8px;
+          cursor: pointer;
+          font-weight: 500;
+          margin: 5px;
+          transition: all 0.3s ease;
+        }
+
+        #pagination button:hover {
+          transform: scale(1.08);
+          background: linear-gradient(90deg, #6a11cb, #2575fc);
+        }
+
+        /* ======== RESPONSIVE DESIGN ======== */
+        @media (max-width: 600px) {
+          body {
+            padding: 10px;
+          }
+
+          .search-box {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .search-box input {
+            width: 100%;
+          }
+
+          .search-box button {
+            width: 100%;
+          }
+        }
+    </style>
+</head>
+
+<body>
+<h1>📰 News Website</h1>
+
+<div class="search-box">
+    <label>Keyword: <input id="keyword" value="apple" /></label>
+    <label>City: <input id="city" placeholder="optional" /></label>
+    <label>Page No: <input id="page" type="number" value="1" min="1" style="width:60px"/></label>
+    <label>Page Size: <input id="pageSize" type="number" value="10" min="1" style="width:60px"/></label>
+    <label>Offline: <input id="offline" type="checkbox"/></label>
+    <button onclick="search()">Search</button>
+</div>
+
+<div id="meta"></div>
+<div id="articles"></div>
+
+<div class="url-list">
+    <h3>List of URLs of Articles</h3>
+    <ul id="urlList"></ul>
+</div>
+
+<div id="pagination" class="page-buttons"></div>
+
+<script>
+    async function search(goToPage = null) {
+      const keyword = document.getElementById("keyword").value;
+      const city = document.getElementById("city").value;
+      const page = goToPage || parseInt(document.getElementById("page").value || "1");
+      const pageSize = parseInt(document.getElementById("pageSize").value || "10");
+      const offline = document.getElementById("offline").checked;
+
+      const params = new URLSearchParams({ keyword, city, pageNo: page, pageSize, offline });
+      const res = await fetch(`/api/news?${params.toString()}`);
+      const data = await res.json();
+
+      // --- Meta Info ---
+      document.getElementById("meta").innerHTML = `
+        <strong>Search Keyword:</strong> ${data.keyword || "N/A"}<br>
+        <strong>City:</strong> ${data.city || "N/A"}<br>
+        <strong>Total No. of Pages:</strong> ${data.totalPages || 0}<br>
+        <strong>Page No. Retrieved:</strong> ${data.pageNo || 1}<br>
+        <strong>Previous Page No:</strong> ${data.prevPage || "N/A"}<br>
+        <strong>Next Page No:</strong> ${data.nextPage || "N/A"}<br>
+        <strong>Time Taken (ms):</strong> ${data.timeTakenMillis || 0}
+      `;
+
+      // --- Articles Section ---
+      const articlesDiv = document.getElementById("articles");
+      const urlList = document.getElementById("urlList");
+      articlesDiv.innerHTML = "";
+      urlList.innerHTML = "";
+
+      if (!data.articles || data.articles.length === 0) {
+        articlesDiv.innerHTML = "<p style='text-align:center;color:#777;'>No articles found.</p>";
+      } else {
+        data.articles.forEach((article, idx) => {
+          const div = document.createElement("div");
+          div.className = "article";
+          div.innerHTML = `
+            <h3>${idx + 1}. ${article.title || article.description || "No title"}</h3>
+            <p>${article.description || ""}</p>
+            <p><strong>News Website:</strong> ${article.source || "Unknown"}</p>
+            <p><strong>URL:</strong> <a href="${article.url}" target="_blank">${article.url}</a></p>
+          `;
+          articlesDiv.appendChild(div);
+
+          const li = document.createElement("li");
+          li.innerHTML = `<a href="${article.url}" target="_blank">${article.url}</a>`;
+          urlList.appendChild(li);
+        });
+      }
+
+      // --- Pagination Controls ---
+      const paginationDiv = document.getElementById("pagination");
+      paginationDiv.innerHTML = "";
+      if (data.prevPage) {
+        const prevBtn = document.createElement("button");
+        prevBtn.textContent = `← Previous (${data.prevPage})`;
+        prevBtn.onclick = () => {
+          document.getElementById("page").value = data.prevPage;
+          search(data.prevPage);
+        };
+        paginationDiv.appendChild(prevBtn);
+      }
+      if (data.nextPage) {
+        const nextBtn = document.createElement("button");
+        nextBtn.textContent = `Next (${data.nextPage}) →`;
+        nextBtn.onclick = () => {
+          document.getElementById("page").value = data.nextPage;
+          search(data.nextPage);
+        };
+        paginationDiv.appendChild(nextBtn);
+      }
+    }
+
+    window.onload = () => search();
+</script>
+</body>
+</html>
